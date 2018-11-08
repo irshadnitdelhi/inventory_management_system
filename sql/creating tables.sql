@@ -13,13 +13,13 @@ CREATE TABLE products (
 Pid INT NOT NULL,
 Pname VARCHAR(20) NOT NULL,
 Price INT NOT NULL,
-CurrentStock INT CONSTRAINT Current_stock_DFT DEFAULT 0,
+CurrentStock INT CONSTRAINT DF_Current_stock DEFAULT 0,
 
 PRIMARY KEY(Pid)
 );
 
 
-CREATE TABLE admin (
+CREATE TABLE addmin (
 username VARCHAR(20) NOT NULL,
 password VARCHAR(20) NOT NULL,  --NOT NULL only for admin, if we are adding a customer login page then we can keep this field NULL
 Name VARCHAR(20),
@@ -44,7 +44,7 @@ Target INT,
 username VARCHAR(20) NOT NULL
 
 PRIMARY KEY(Mnth, Yr),
-CONSTRAINT salestarget_username_FK FOREIGN KEY(username) REFERENCES admin(username)
+CONSTRAINT salestarget_username_FK FOREIGN KEY(username) REFERENCES addmin(username)
 );
 
 
@@ -54,8 +54,7 @@ Mnth INT NOT NULL,
 Yr INT NOT NULL,
 Production_cost INT,
 
-PRIMARY KEY(Mnth, Yr),
-CONSTRAINT produces_Pid_FK FOREIGN KEY(Pid) REFERENCES products(Pid)
+PRIMARY KEY(Pid, Mnth, Yr)
 );
 
 
@@ -93,11 +92,13 @@ PRIMARY KEY(SInvNo)
 
 
 CREATE TABLE salesinvoice (
+Pid INT NOT NULL,
 SInvNo INT NOT NULL,
 Quantity INT NOT NULL,
 Price INT NOT NULL,
 
-CONSTRAINT salesinvoice_SInvNo_FK FOREIGN KEY(SInvNo) REFERENCES sellsto(SInvNo)
+CONSTRAINT salesinvoice_SInvNo_FK FOREIGN KEY(SInvNo) REFERENCES sellsto(SInvNo),
+CONSTRAINT salesinvoice_Pid_FK FOREIGN KEY(Pid) REFERENCES products(Pid)
 );
 
 
@@ -121,3 +122,4 @@ Price INT NOT NULL,
 CONSTRAINT productinvoice_Pid_FK FOREIGN KEY(Pid) REFERENCES products(Pid),
 CONSTRAINT productinvoice_PInvNo_FK FOREIGN KEY(PInvNo) REFERENCES purchasedby(PinvNo)
 );
+
