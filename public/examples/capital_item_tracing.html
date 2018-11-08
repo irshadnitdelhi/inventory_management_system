@@ -73,7 +73,7 @@
                             <p>Supplier</p>
                         </a>
                     </li>
-                    <li class="active">
+                    <li >
                         <a href="./reports.html">
                             <i class="icons design_bullet-list-67"></i>
                             <p>Sales Reports </p>
@@ -81,14 +81,20 @@
                     </li>
                     <li >
                         <a href="./variance_reports.html">
-                          <i class="icons design_bullet-list-67"></i>
-                          <p>Variance Reports </p>
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Variance Reports </p>
                         </a>
                     </li>
                     <li >
                         <a href="./customer_product_trend.html">
-                          <i class="icons design_bullet-list-67"></i>
-                          <p>Customer Product Trend</p>
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Customer Product Trend</p>
+                        </a>
+                    </li>
+                    <li class = "active">
+                        <a href="./capital_item_tracing.html">
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Capital Item Tracing</p>
                         </a>
                     </li>
                 </ul>
@@ -133,7 +139,7 @@
                                     </p>
                                 </a>
                             </li>
-                        
+                            
                             <li class="nav-item">
                                 <a class="nav-link" href="#pablo">
                                     <i class="icons users_single-02"></i>
@@ -155,42 +161,28 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="title">Sales Report</h5>
+                                <h5 class="title">Capital Item Tracing</h5>
                             </div>
                             <div class="card-body">
                                 <form >
-                                   
-                                    <div class="row">
-                                        <div class="col-md-4 pr-1">
-                                            <div class="form-group">
-                                                <label>Month Range Min</label>
-                                                <input type="number" class="form-control" placeholder="1-12" id="month-range-min" min = "1" max = "12">
-                                            </div>
-                                        </div>
-                                      
-                                        <div class="col-md-4 px-1">
-                                            <div class="form-group">
-                                                <label>Month Range Max</label>
-                                                <input type="number" class="form-control" placeholder="1-12" id="month-range-max" min="1" max = "12">
-                                            </div>
-                                        </div>
-                                    </div>
                                     
                                     <div class="row">
                                         <div class="col-md-4 pr-1">
                                             <div class="form-group">
-                                                <label>Year Range Min</label>
-                                                <input type="number" class="form-control" placeholder="2017" id="year-range-min">
+                                                <label>Capital Item ID</label>
+                                                <input type="number" class="form-control" placeholder="1-12" id="capital_item_id" min = "1" max = "12">
                                             </div>
                                         </div>
-                                        <div class="col-md-4 px-1" >
+                                        
+                                        <div class="col-md-4 px-1">
                                             <div class="form-group">
-                                                <label>Year Range Max</label>
-                                                <input type="number" class="form-control" placeholder="2018" id="year-range-max">
+                                                <label>Current Year</label>
+                                                <input type="number" class="form-control" placeholder="1-12" id="current_year" min="1" max = "12">
                                             </div>
                                         </div>
                                     </div>
-                            
+                                    
+                                    
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group" style="padding-top : 20px">
@@ -198,7 +190,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                 </form>
                             </div>
                         </div>
@@ -218,11 +210,11 @@
             <!--  Notifications Plugin    -->
             <script src="../assets/js/plugins/bootstrap-notify.js"></script>
             <script src="../assets/js/dashboard.min.js?v=1.2.0" type="text/javascript"></script>
-         
-            <script src="../assets/js/reports.js"></script>
-
-           
+            
+            <script src="../assets/js/capital_item_tracing.js"></script>
+            
+            
         </body>
         
-        </html>
+</html>
         
