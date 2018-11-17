@@ -111,6 +111,36 @@ exports.capital_item_tracing = function(data) {
 
 }
 
+//Monthly Sales Target
+exports.monthly_sales_target = function(data) {
+
+    return `
+    select monthname(concat('2018-',Mnth,'-11')) AS target_month,target
+    from salestarget
+    where Mnth between ${data.month_range_min} AND ${data.month_range_max} and
+    Yr between ${data.year_range_min} AND ${data.year_range_max} 
+    order by target_month; 
+    
+    `; 
+
+
+}
+exports.monthly_sales = function(data) {
+
+    return `
+    SELECT monthname(SellDate) AS sales_month , SUM(Amount) AS total_sales
+    FROM sellsto
+    WHERE 
+        MONTH(SellDate)  BETWEEN ${data.month_range_min} AND ${data.month_range_max}
+        AND YEAR(SellDate) BETWEEN ${data.year_range_min} AND ${data.year_range_max}
+    GROUP BY sales_month
+    ORDER BY sales_month ;
+
+    ` ;
+
+
+}
+
 
 
 

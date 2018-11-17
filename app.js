@@ -272,6 +272,64 @@ app.get('/examples/customer_product_trend',function(req,res) {
     }
     
 })
+// Sales Target vs Profit_loss
+//Customer Product Trends
+app.get('/examples/sales/targetActual',function(req,res) {
+    
+    
+    let data = req.query 
+    
+    
+    let monthly_sales_query = sqlquery.monthly_sales(data)
+    let target_sales_query = sqlquery.monthly_sales_target(data)
+    
+    
+    
+        
+        connection.query(target_sales_query,function(error,target_sales){
+            if(error){
+                responseString = `Error Message : ${error.sqlMessage}`
+                res.status(400)
+                throw error
+            }
+            connection.query(monthly_sales_query,function(error,monthly_sales) {
+                if(error) {
+                    responseString = ` Error Message :${error.sqlMessage} `
+                    res.status(400)
+                    throw error
+                }
+                let months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+                let response = []
+                months.forEach( function(currentMonth){
+                    let targetData = target_sales.find(x => x.target_month == currentMonth)
+                    let actualSale = monthly_sales.find(x => x.sales_month == currentMonth)
+                    if(targetData != undefined){
+                        target = targetData.target 
+                    }
+                    else{
+                        target = 0 
+                    }
+                    if(actualSale != undefined){
+                        actualSale = actualSale.total_sales
+                    }
+                    else{
+                        actualSale = 0 ;
+                    }
+                    response.push({
+                        month : currentMonth,
+                        targetSale : target,
+                        totalSale : actualSale
+                    })
+        
+                })
+                res.status(200)
+                res.json(response)
+            })
+           
+        })
+  
+    
+})
 
 // Capital Item Tracing
 app.get('/examples/capital_item_tracing',function(req,res) {
