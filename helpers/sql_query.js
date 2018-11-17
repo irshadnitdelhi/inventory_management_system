@@ -7,12 +7,11 @@ exports.insertSupplier = function(supplier){
     return `INSERT INTO supplier VALUES(${supplier.Sid},'${supplier.Sname}','${supplier.Type}',${supplier.ContactNo}) ;`
 }
 exports.sales_date_wise = function(date_range){
-    return `SELECT DAY(SellDate) AS Day , SUM(Amount) AS Total_Sale
+    return `SELECT SellDate , SUM(Amount) AS TotalSale
             FROM sellsto
-            WHERE MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-            AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
-            GROUP BY Day
-            ORDER BY Day ;` ;
+            WHERE SellDate  BETWEEN '${date_range.date_range_min}' AND '${date_range.date_range_max}'
+            GROUP BY SellDate
+            ORDER BY SellDate ;` ;
 }
 exports.sales_product_wise = function(date_range){
 
@@ -20,71 +19,67 @@ exports.sales_product_wise = function(date_range){
     return `SELECT Pname, SUM(si.Price) as total_sale
             FROM sellsto AS s, salesinvoice AS si, products AS p
             WHERE s.SInvNo = si.SInvNo AND si.Pid = p.Pid AND
-                  MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-                  AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
+                   SellDate  BETWEEN '${date_range.date_range_min}' AND '${date_range.date_range_max}'
             GROUP BY Pname ;`;
 }
-exports.sales_week_wise = function(date_range){
+exports.sales_week_wise = function(data){
     return `
     SELECT WEEK(SellDate) as week_wise,SUM(Amount) AS total_sales
     FROM sellsto 
-    WHERE 
-        MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-        AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
-	GROUP BY week_wise ;
+    where YEAR(SellDate) = ${data.year}
+    group by week_wise
+    order by week_wise 
     `;
 }
 exports.sales_month_wise = function(date_range){
-    return `
-    SELECT MONTH(SellDate) AS sell_month , SUM(Amount) AS total_sales
-    FROM sellsto
-    WHERE 
-        MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-        AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
-    GROUP BY sell_month
-    ORDER BY sell_month
 
-    `;
+    return ` SELECT CONCAT(MONTHNAME(SellDate),'-',YEAR(SellDate)) AS sell_month , SUM(Amount) AS total_sales
+    FROM sellsto WHERE MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
+    AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
+    GROUP BY sell_month
+    ORDER BY YEAR(SellDate),MONTH(SellDate)`;
 }
 //Variance Reports
-exports.variance_date_wise = function(date_range){
-    return `SELECT DAY(SellDate) AS Day , variance(Amount) AS variance
-            FROM sellsto
-            WHERE MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-            AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
-            GROUP BY Day
-            ORDER BY Day ;` ;
+exports.variance_date_wise = function(data){
+    return `select variance(TotalSale) AS var from
+        (SELECT SellDate , SUM(Amount) AS TotalSale
+         FROM sellsto
+         WHERE SellDate BETWEEN '${data.date_range_min}' AND '${data.date_range_max}'
+         GROUP BY SellDate
+        ) AS saleTable;
+                
+                ` ;
 }
-exports.variance_product_wise = function(date_range){
+exports.variance_product_wise = function(data){
 
 
-    return `SELECT Pname, variance(si.Price) as variance
-            FROM sellsto AS s, salesinvoice AS si, products AS p
-            WHERE s.SInvNo = si.SInvNo AND si.Pid = p.Pid AND
-                  MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-                  AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
-            GROUP BY Pname ;`;
+    return `select variance(total_sale) as var 
+            FROM (
+                SELECT Pname, SUM(si.Price) as total_sale
+                FROM sellsto AS s, salesinvoice AS si, products AS p
+                WHERE s.SInvNo = si.SInvNo AND si.Pid = p.Pid AND
+                SellDate  BETWEEN '${data.date_range_min}' AND '${data.date_range_max}'
+                GROUP BY Pname ) as saleTable;`;
 }
-exports.variance_week_wise = function(date_range){
-    return `
-    SELECT WEEK(SellDate) as week_wise,variance(Amount) AS variance
-    FROM sellsto 
-    WHERE 
-        MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-        AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
-	GROUP BY week_wise ;
+exports.variance_week_wise = function(data){
+    return `SELECT variance(total_sales) AS var 
+    FROM (SELECT WEEK(SellDate) as week_wise,SUM(Amount) AS total_sales
+          FROM sellsto 
+          where YEAR(SellDate) = ${data.year}
+          group by week_wise
+          order by week_wise
+    ) AS saleTable
     `;
 }
-exports.variance_month_wise = function(date_range){
-    return `
-    SELECT MONTH(SellDate) AS sell_month , variance(Amount) AS variance
-    FROM sellsto
-    WHERE 
-        MONTH(SellDate)  BETWEEN ${date_range.month_range_min} AND ${date_range.month_range_max}
-        AND YEAR(SellDate) BETWEEN ${date_range.year_range_min} AND ${date_range.year_range_max} 
-    GROUP BY sell_month
-    ORDER BY sell_month
-
+exports.variance_month_wise = function(data){
+    return ` SELECT variance(total_sales) as var
+    FROM (
+        SELECT CONCAT(MONTHNAME(SellDate),'-',YEAR(SellDate)) AS sell_month , SUM(Amount) AS total_sales
+        FROM sellsto WHERE MONTH(SellDate)  BETWEEN ${data.month_range_min} AND ${data.month_range_max}
+        AND YEAR(SellDate) BETWEEN ${data.year_range_min} AND ${data.year_range_max} 
+        GROUP BY sell_month
+        ORDER BY YEAR(SellDate),MONTH(SellDate)
+    ) AS saleTable
     `;
 }
 //Customer Trends for Products
@@ -107,7 +102,7 @@ exports.capital_item_tracing = function(data) {
     return `select c.CPname,ci.Price,c.RateDep,YEAR(pb.PurDate) AS year_purchase
     from capitalinvoice as ci, purchasedby as pb , capitalitems as c
     where ci.CPInvNo = pb.PInvNo  AND c.CPid = ci.CPid AND c.CPid = ${data.capital_item_id}
-    ORDER BY pb.PurDate DESC ;`
+     ;`
 
 }
 
@@ -140,12 +135,19 @@ exports.monthly_sales = function(data) {
 
 
 }
+// Update stock Daily
+exports.updateStock = function(data){
 
+    return ` UPDATE products
+             SET CurrrentStock += ${data.newStock}
+             WHERE Pid = ${data.pid} ;
+    `;
+}
 
+// Cost Entry 
+exports.costEntry = function(data){
 
+    return ` INSERT INTO produces 
+        VALUES( ${data.month}, ${data.year}, ${data.cost});`
 
-
-// Invoice Insertion 
-
-// Input data header  table sells to
-// 1. Cid 2. Invoice No 3.Sell Date 4. Amount 5. Feedback 
+}

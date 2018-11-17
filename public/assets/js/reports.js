@@ -1,28 +1,41 @@
 // Add chart.destory() option to destory the chart 
 
+
+
+
+
 //Date Wise
 function display_date_wise() {
 
     let data = {} ;
-    data.month_range_min = $('#month-range-min').val();
-    data.month_range_max = $('#month-range-max').val();
-    data.year_range_min = $('#year-range-min').val() ;
-    data.year_range_max = $('#year-range-max').val();
+    data.date_range_min = $('#date-range-min').val();
+    data.date_range_max = $('#date-range-max').val();
+    console.log(data.date_range_min,'-',data.date_range_max) 
+
     
-    let url = new URL('examples/reports/datewise',"http://localhost:3000")
+    let url = new URL('examples/reports/variance/datewise',"http://localhost:3000")
     url.search = new URLSearchParams(data)
 
+    fetch(url).then(response => response.json())
+     .then(function(res){
+        $('#variance').text('Variance :' + res[0].var)
+
+     })
+    url = new URL('examples/reports/datewise',"http://localhost:3000")
+    url.search = new URLSearchParams(data)
+    
     fetch(url).then(response => response.json())
     .then(function(res){
 
         let response_label = []
         let response_data = []
         res.forEach(day_sale => {
-            response_label.push(day_sale.Day)
-            response_data.push(day_sale.Total_Sale)
+            response_label.push(day_sale.SellDate)
+            response_data.push(day_sale.TotalSale)
           
         });
 
+      
        
 
         let ctx = document.getElementById('bigDashboardChart').getContext("2d");
@@ -37,11 +50,11 @@ function display_date_wise() {
     
     
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: response_label,
                 datasets: [{
-                  label: "Data",
+                  label: "Sales ",
                   borderColor: '#FFFFFF',
                   pointBorderColor: '#FFFFFF',
                   pointBackgroundColor: "#1e3d60",
@@ -101,33 +114,37 @@ function display_date_wise() {
         
                   }],
                   xAxes: [{
-                    gridLines: {
-                      zeroLineColor: "transparent",
-                      display: false,
-        
-                    },
-                    ticks: {
-                      padding: 10,
-                      fontColor: "rgba(255,255,255,0.4)",
-                      fontStyle: "bold"
-                    }
+                    display : false
                   }]
                 }
             }
         });
+      
     })
+
+
+  
    
 }
+$('#datewise-submit').on('click',display_date_wise)
 // Display Product Wise
 function display_product_wise() {
 
   let data = {} ;
-  data.month_range_min = $('#month-range-min').val();
-  data.month_range_max = $('#month-range-max').val();
-  data.year_range_min = $('#year-range-min').val() ;
-  data.year_range_max = $('#year-range-max').val();
+  data.date_range_min = $('#pro_date-range-min').val();
+  data.date_range_max = $('#pro_date-range-max').val();
   
-  let url = new URL('examples/reports/productwise',"http://localhost:3000")
+  
+  let url = new URL('examples/reports/variance/productwise',"http://localhost:3000")
+  url.search = new URLSearchParams(data)
+
+  fetch(url).then(response => response.json())
+   .then(function(res){
+      $('#variance').text('Variance :' + res[0].var)
+
+   })
+
+  url = new URL('examples/reports/productwise',"http://localhost:3000")
   url.search = new URLSearchParams(data)
 
   fetch(url).then(response => response.json())
@@ -236,16 +253,24 @@ function display_product_wise() {
   })
  
 }
+$('#product-wise-btn').on('click',display_product_wise)
 // Display Week Wise
 function display_week_wise() {
 
   let data = {} ;
-  data.month_range_min = $('#month-range-min').val();
-  data.month_range_max = $('#month-range-max').val();
-  data.year_range_min = $('#year-range-min').val() ;
-  data.year_range_max = $('#year-range-max').val();
+  data.year = $('#yearVal').val();
+
   
-  let url = new URL('examples/reports/weekwise',"http://localhost:3000")
+  let url = new URL('examples/reports/variance/weekwise',"http://localhost:3000")
+  url.search = new URLSearchParams(data)
+
+  fetch(url).then(response => response.json())
+   .then(function(res){
+      $('#variance').text('Variance :' + res[0].var)
+
+   })
+  
+  url = new URL('examples/reports/weekwise',"http://localhost:3000")
   url.search = new URLSearchParams(data)
 
   fetch(url).then(response => response.json())
@@ -351,6 +376,7 @@ function display_week_wise() {
       });
   })
 }
+$('#weekwise-btn').on('click',display_week_wise)
 //Display Month Wise
 function display_month_wise() {
 
@@ -359,8 +385,18 @@ function display_month_wise() {
   data.month_range_max = $('#month-range-max').val();
   data.year_range_min = $('#year-range-min').val() ;
   data.year_range_max = $('#year-range-max').val();
+
   
-  let url = new URL('examples/reports/monthwise',"http://localhost:3000")
+  let url = new URL('examples/reports/variance/monthwise',"http://localhost:3000")
+  url.search = new URLSearchParams(data)
+
+  fetch(url).then(response => response.json())
+   .then(function(res){
+      $('#variance').text('Variance :' + res[0].var)
+
+   })
+
+  url = new URL('examples/reports/monthwise',"http://localhost:3000")
   url.search = new URLSearchParams(data)
 
   fetch(url).then(response => response.json())
@@ -466,20 +502,4 @@ function display_month_wise() {
       });
   })   
 }
-$('.submit-btn').on('click',function(){
-
-    let option = $('#report-option').val();
-    if(option == "Date Wise"){
-        display_date_wise(); 
-    }
-    else if(option == "Product Wise"){
-        display_product_wise();
-    }
-    else if(option == "Week Wise"){
-        display_week_wise() ;
-    }
-    else{
-        display_month_wise() ;
-    }
-
-});
+$('#month-wise-btn').on('click',display_month_wise)

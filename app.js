@@ -102,6 +102,7 @@ app.get('/examples/reports/:option',function(req,res) {
     let queryString = '' ;
     if (req.params.option == 'datewise'){
         queryString = sqlquery.sales_date_wise(date_range)
+  
     }
     else if(req.params.option == 'productwise'){
         queryString = sqlquery.sales_product_wise(date_range)
@@ -126,6 +127,7 @@ app.get('/examples/reports/:option',function(req,res) {
                 res.status(400)
                 throw error
             }
+       
             res.json(result)
         })
     }
@@ -222,6 +224,7 @@ app.get('/examples/reports/variance/:option',function(req,res) {
     }
     else if(req.params.option == 'monthwise'){
         queryString = sqlquery.variance_month_wise(date_range)
+
     }
     else{
         queryString = '' 
@@ -229,13 +232,14 @@ app.get('/examples/reports/variance/:option',function(req,res) {
     
     if(queryString){
         let responseString = "Successfull"
-        
+
         connection.query(queryString,function(error,result){
             if(error){
                 responseString = `Error Message : ${error.sqlMessage}`
                 res.status(400)
                 throw error
             }
+            console.log(result)
             res.status(200)
             res.json(result)
         })
@@ -349,18 +353,55 @@ app.get('/examples/capital_item_tracing',function(req,res) {
             throw error
         }
 
-        let init_price = result[0].Price 
-        let init_year = result[0].year_purchase
-        let rateDep = result[0].RateDep
-        let depr_data = []
-        depr_data.push({year : init_year, price : init_price})
-
-        for(i = init_year+1 ; i <= data.current_year ; i++ ){
-            init_price = init_price * ((100-rateDep)/100)
-            depr_data.push({year : i,price : init_price})
-        }
-        res.json(depr_data)
+        res.status(200)
+        res.json(result)
     })
+    
+    
+    
+})
+// To complete
+// update stock
+app.post('/examples/add/updateStock',function(req,res){
+    
+    
+    let data = Object.values(req.body) // Parse Object as Array Object
+    
+    let responseString = "Successfull"
+    let queryString = sqlquery.updateStock(data)
+    res.status(200)
+    connection.query(queryString,function(error){
+        if(error){
+            responseString = `Error Message : ${error.sqlMessage}`
+            res.status(400)
+            throw error
+        }
+            
+    })
+    res.send(responseString)
+    
+    
+    
+})
+
+// production cost
+app.post('/examples/add/costEntry',function(req,res){
+    
+    
+    let data = Object.values(req.body) // Parse Object as Array Object
+    
+    let responseString = "Successfull"
+    let queryString = sqlquery.costEntry(data)
+    res.status(200)
+    connection.query(queryString,function(error){
+        if(error){
+            responseString = `Error Message : ${error.sqlMessage}`
+            res.status(400)
+            throw error
+        }
+            
+    })
+    res.send(responseString)
     
     
     
