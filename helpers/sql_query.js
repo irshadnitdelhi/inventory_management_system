@@ -1,6 +1,6 @@
 exports.insertCustomer = function(customer){
 
-    let insertCustomer = `INSERT INTO customer VALUES(${customer.Cid},'${customer.Cname}',${customer.ContactNo},'${customer.EmailId}');` 
+    let insertCustomer = `INSERT INTO customer VALUES(${customer[0]},'${customer[1]}',${customer[2]},'${customer[3]}');` 
     return insertCustomer ;
 }
 exports.insertSupplier = function(supplier){
@@ -85,13 +85,13 @@ exports.variance_month_wise = function(data){
 //Customer Trends for Products
 exports.customer_product_trends = function(data) {
 
-    return `SELECT MONTH(s.SellDate) AS monthwise,COUNT(*) AS countnum
-            FROM sellsto AS s, salesinvoice AS si, products AS p
-            WHERE s.SInvNo = si.SInvNo AND si.Pid = p.Pid AND
-                  MONTH(SellDate)  BETWEEN ${data.month_range_min} AND ${data.month_range_max}
-                  AND YEAR(SellDate) BETWEEN ${data.year_range_min} AND ${data.year_range_max}
-                  AND si.Pid = ${data.pid} AND s.Cid = ${data.cid}
-            GROUP BY monthwise;` ;
+    return `          
+    SELECT MONTH(SellDate) as month , SUM(Price) as total_sale
+    FROM sellsto AS s , SALESINVOICE as si
+    WHERE s.SInvNo = si.SInvNo AND 
+          YEAR(s.SellDate) BETWEEN ${data.year_range_min} AND ${data.year_range_max} AND si.Pid = ${data.pid}
+    GROUP BY month
+    order by month` ;
 
 }
 // Capital Item Tracing
@@ -99,9 +99,9 @@ exports.customer_product_trends = function(data) {
 exports.capital_item_tracing = function(data) {
 
 
-    return `select c.CPname,ci.Price,c.RateDep,YEAR(pb.PurDate) AS year_purchase
-    from capitalinvoice as ci, purchasedby as pb , capitalitems as c
-    where ci.CPInvNo = pb.PInvNo  AND c.CPid = ci.CPid AND c.CPid = ${data.capital_item_id}
+    return `SELECT c.CPid,c.CPname,ci.Price,c.Quantity,c.RateDep,pb.PurDate , YEAR(pb.PurDate) AS year 
+    FROM capitalinvoice as ci, purchasedby as pb , capitalitems as c
+    WHERE ci.CPInvNo = pb.PInvNo  AND c.CPid = ci.CPid
      ;`
 
 }
@@ -139,7 +139,7 @@ exports.monthly_sales = function(data) {
 exports.updateStock = function(data){
 
     return ` UPDATE products
-             SET CurrrentStock += ${data.newStock}
+             SET CurrentStock =  CurrentStock + ${data.newStock}
              WHERE Pid = ${data.pid} ;
     `;
 }

@@ -3,90 +3,142 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        .dropdown-submenu {
-    position: relative;
-    }
-
-    .dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -1px;
-    }
-    </style>
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        Stock Management System</title>
+        Stock Management System
+    </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <!-- CSS Files -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../assets/css/dashboard.css?v=1.2.0" rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="../assets/css/reports.css" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <style>
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+            visibility: hidden; /* Hidden by default. Visible on click */
+            min-width: 250px; /* Set a default minimum width */
+            margin-left: -125px; /* Divide value of min-width by 2 */
+            background-color: #333; /* Black background color */
+            color: #fff; /* White text color */
+            text-align: center; /* Centered text */
+            border-radius: 2px; /* Rounded borders */
+            padding: 16px; /* Padding */
+            position: fixed; /* Sit on top of the screen */
+            z-index: 1; /* Add a z-index if needed */
+            left: 50%; /* Center the snackbar */
+            bottom: 30px; /* 30px from the bottom */
+        }
+        
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+            visibility: visible; /* Show the snackbar */
+            /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+            However, delay the fade out process for 2.5 seconds */
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        
+        /* Animations to fade the snackbar in and out */
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+        
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+        
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+        
+    </style>
 </head>
 
 <body class="">
     <div class="wrapper ">
         <div class="sidebar" data-color="orange">
-            <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
             <div class="logo">
+                
                 <a href="#" class="simple-text logo-normal">
-        Stock Management System
-        </a>
+                    Stock Management System
+                </a>
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li>
+                    <li >
                         <a href="./dashboard.html">
-              <i class="icons design_app"></i>
-              <p>Dashboard</p>
-            </a>
+                            <i class="icons design_app"></i>
+                            <p>Dashboard</p>
+                        </a>
                     </li>
+                    
                     <li>
                         <a href="./user.html">
-              <i class="icons users_single-02"></i>
-              <p>User Profile</p>
-            </a>
+                            <i class="icons users_single-02"></i>
+                            <p>User Profile</p>
+                        </a>
                     </li>
+                    
                     <li>
                         <a href="./tables.html">
-              <i class="icons design_bullet-list-67"></i>
-              <p>Table List</p>
-            </a>
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Table List</p>
+                        </a>
                     </li>
-                    <li>
-                        <a href="./capital_purchase.html">
-              <i class="icons design_bullet-list-67"></i>
-              <p>Capital Purchase</p>
-            </a>
-                    </li>
-                    <li>
+                    
+                    <li >
                         <a href="./invoice.html">
-              <i class="icons design_bullet-list-67"></i>
-              <p>Invoice</p>
-            </a>
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Invoice</p>
+                        </a>
                     </li>
-                    <li>
+                    <li >
                         <a href="./customer.html">
-              <i class="icons design_bullet-list-67"></i>
-              <p>Customer</p>
-            </a>
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Customer</p>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="./supplier.html">
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Supplier</p>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="./reports.html">
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Sales Reports </p>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="./variance_reports.html">
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Variance Reports </p>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="./customer_product_trend.html">
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Customer Product Trend</p>
+                        </a>
                     </li>
                     <li class="active">
-                        <a href="./products.html">
-              <i class="icons design_bullet-list-67"></i>
-              <p>Products</p>
-            </a>
+                        <a href="./salesTargetActuals.html">
+                            <i class="icons design_bullet-list-67"></i>
+                            <p>Sales Target VS Actuals</p>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -103,7 +155,7 @@
                                 <span class="navbar-toggler-bar bar3"></span>
                             </button>
                         </div>
-                        <a class="navbar-brand" href="#pablo">Customers</a>
+                        <a class="navbar-brand" href="#pablo">Reports</a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -111,124 +163,208 @@
                         <span class="navbar-toggler-bar navbar-kebab"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        <form>
-                            <div class="input-group no-border">
-                                <input type="text" value="" class="form-control" placeholder="Search...">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <i class="icons ui-1_zoom-bold"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="#pablo">
-                  <i class="icons media-2_sound-wave"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
+                                    <i class="icons media-2_sound-wave"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block">Stats</span>
+                                    </p>
+                                </a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="icons location_world"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </li>
+                            
                             <li class="nav-item">
                                 <a class="nav-link" href="#pablo">
-                  <i class="icons users_single-02"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
+                                    <i class="icons users_single-02"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block">Account</span>
+                                    </p>
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
             <!-- End Navbar -->
-            <div class="panel-header panel-header-sm">
-            </div>
+            
             <div class="content">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Add Stock</h4>
+                                <h5 class="title">Stock Entry</h5>
                             </div>
-                            Product Name 
-                            <select id="mySelect" onchange="myFunction()">
-                                <option value="1">Milk Amul
-                                <option value="2">Ghee Amul
-                                <option value="3">Ghee Ananda
-                                <option value="4">Curd
-                                <option value="5">Nasika
-                                <option value="6">Ark 1
-                                <option value="7">Ark 2
-                                <option value="8">Ark 3
-                                <option value="9">Phenyl
-                                <option value="10">Mustard Oil
-                            </select>
-                            <td>
-                                <br>
-                                <br>
-                                Quantity
-                                <input type="text" id="qty" placeholder="Quantity" name="Quantity">
-                                <p id="demo"></p>
-                            </td>
-                            <script>
-                                function myFunction() {
-                                    var x = document.getElementById("mySelect").value;
-                                    var y = document.getElementById("qty").value;
-                                    document.getElementById("demo").innerHTML = "You selected: " + x;
-                                    document.getElementById("qty").innerHTML = "You selected: " + input.value();
-
-
-                                }
-                                </script>
+                            <div class="card-body">
+                                <form >
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 pr-1">
+                                            <div class="form-group">
+                                                <label for="product">Product</label>
+                                                <select class="form-control" id="product">
+                                                    
+                                                    <option value="1">Milk Amul</option>
+                                                    <option value="2">Ghee Amul</option>
+                                                    <option value="3">Ghee Ananda</option>
+                                                    <option value="4">Curd</option>
+                                                    <option value="5"> Nasika</option>
+                                                    <option value="6"> Ark1</option>
+                                                    <option value="7"> Ark2</option>
+                                                    <option value="8">Ark3</option>
+                                                    <option value='9'>Phenyl</option>
+                                                    <option value='10'>Oil Mustard</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4 px-1">
+                                            <div class="form-group">
+                                                <label>New Stock</label>
+                                                <input type="number" class="form-control" id="newStock" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" style="padding-top : 20px">
+                                                <span id="stock-btn" style="background-color : #3b4bb7 ; padding : 10px; color : white ;">Submit</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </form>
+                            </div>
                         </div>
-                        <button onclick="myFunction()"> Submit</button>
-                        <div class="card-header">
-                            <h4 class="card-title">Month Wise Production</h4>
-                        </div>
-                        Month & Year  
-                        <input type="month" placeholder="Month" name="Month">
-                        <br>
-                        <br>
-                        Production Cost
-                          
-                        <input type="text" placeholder="Production Cost" name="Production Cost">
-                        <br>
-                        <br>
-
-                        <button> Submit</button>
                     </div>
+                    
+                    
+                    
                 </div>
-                <footer class="footer">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="title">Production Cost Entry</h5>
+                            </div>
+                            <div class="card-body">
+                                <form >
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mx-1 ">
+                                                <div class="form-group">
+                                                <label>Production Month</label>
+                                                <input type="month" class="form-control" id="month" >
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-4 px-1 ">
+                                                <div class="form-group">
+                                                    <label>Production Cost</label>
+                                                    <input type="number" class="form-control" id="cost" >
+                                                </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" style="padding-top : 20px">
+                                                <span id="cost-btn" style="background-color : #3b4bb7 ; padding : 10px; color : white ;">Submit</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
             </div>
-            </footer>
-        </div>
-    </div>
-    <!--   Core JS Files   -->
-    <script src="../assets/js/core/jquery.min.js"></script>
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-    <!-- Chart JS -->
-    <script src="../assets/js/plugins/chartjs.min.js"></script>
-    <!--  Notifications Plugin    -->
-    <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-    <script src="../assets/js/dashboard.min.js?v=1.2.0" type="text/javascript"></script>
-    <script src="../assets/demo/demo.js"></script>
-</body>
+            <!--   Core JS Files   -->
+            <script src="../assets/js/core/jquery.min.js"></script>
+            <script src="../assets/js/core/popper.min.js"></script>
+            <script src="../assets/js/core/bootstrap.min.js"></script>
+            <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+            <!-- Chart JS -->
+            <script src="../assets/js/plugins/chartjs.min.js"></script>
+            <!--  Notifications Plugin    -->
+            <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+            <script src="../assets/js/dashboard.min.js?v=1.2.0" type="text/javascript"></script>
+            
+            
+            <script>
+                $('#stock-btn').on('click',function(){
 
-</html>
+                    let data = {} 
+                    data.pid = $('#product').val()
+                    data.newStock = $('#newStock').val()
+                    
+                    fetch('add/updateStock',{
+                        method : "POST",
+                        headers: {
+                            "Content-Type": "application/json; charset=utf-8"
+                        },
+                        body : JSON.stringify(data)
+                    }).then( (res) => res.text())
+                    .then( function(res){
+                        // Get the snackbar DIV
+                        var x = document.getElementById("snackbar");
+                        if(res == "Successfull"){
+                            x.textContent = 'Customer Insertion Success'
+                        }
+                        else{
+                            x.textContent = res
+                        }
+                        // Add the "show" class to DIV
+                        x.className = "show";
+                        
+                        // After 3 seconds, remove the show class from DIV
+                        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                        
+                    })
+                })
+                $('#cost-btn').on('click',function(){
+
+                    let data = {} 
+                    data.month = $('#month').val().split('-')[1]
+                    data.year = $('#month').val().split('-')[0]
+                    data.cost = $('#cost').val()
+                    
+                    fetch('add/costEntry',{
+                        method : "POST",
+                        headers: {
+                            "Content-Type": "application/json; charset=utf-8"
+                        },
+                        body : JSON.stringify(data)
+                    }).then( (res) => res.text())
+                    .then( function(res){
+                        // Get the snackbar DIV
+                        var x = document.getElementById("snackbar");
+                        if(res == "Successfull"){
+                            x.textContent = 'Customer Insertion Success'
+                        }
+                        else{
+                            x.textContent = res
+                        }
+                        // Add the "show" class to DIV
+                        x.className = "show";
+                        
+                        // After 3 seconds, remove the show class from DIV
+                        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                        
+                    })
+                })
+                
+                
+            </script>
+            
+            <div id="snackbar">Some text some message..</div>
+        </body>
+        
+        
+        </html>
+        

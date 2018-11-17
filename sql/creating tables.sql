@@ -1,4 +1,6 @@
---CREATING TABLES
+CREATE DATABASE INVENTORY;
+USE INVENTORY ;
+-- CREATING TABLES
 CREATE TABLE supplier (
 Sid INT NOT NULL,
 Sname VARCHAR(20) NOT NULL,
@@ -13,7 +15,7 @@ CREATE TABLE products (
 Pid INT NOT NULL,
 Pname VARCHAR(20) NOT NULL,
 Price INT NOT NULL,
-CurrentStock INT CONSTRAINT DF_Current_stock DEFAULT 0,
+CurrentStock INT  DEFAULT 0,
 
 PRIMARY KEY(Pid)
 );
@@ -21,7 +23,7 @@ PRIMARY KEY(Pid)
 
 CREATE TABLE addmin (
 username VARCHAR(20) NOT NULL,
-password VARCHAR(20) NOT NULL,  --NOT NULL only for admin, if we are adding a customer login page then we can keep this field NULL
+password VARCHAR(20) NOT NULL,  -- NOT NULL only for admin, if we are adding a customer login page then we can keep this field NULL
 Name VARCHAR(20),
 
 PRIMARY KEY(username)
@@ -31,17 +33,18 @@ PRIMARY KEY(username)
 CREATE TABLE customer (
 Cid INT NOT NULL,
 Cname VARCHAR(20) NOT NULL,
-ContactNo INT,
+ContactNo VARCHAR(15),
 EmailId VARCHAR(20),
 
 PRIMARY KEY(Cid)
 );
 
+
 CREATE TABLE salestarget (
 Mnth INT NOT NULL,
 Yr INT NOT NULL,
 Target INT,
-username VARCHAR(20) NOT NULL
+username VARCHAR(20) NOT NULL,
 
 PRIMARY KEY(Mnth, Yr),
 CONSTRAINT salestarget_username_FK FOREIGN KEY(username) REFERENCES addmin(username)
@@ -89,6 +92,7 @@ Feedback VARCHAR(50),
 
 PRIMARY KEY(SInvNo)
 );
+    
 
 
 CREATE TABLE salesinvoice (

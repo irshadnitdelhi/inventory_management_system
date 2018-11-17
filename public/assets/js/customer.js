@@ -14,9 +14,8 @@ function tableJSON(){
             rowData[rowIndex][headers[columnIndex]] = $(this)[0].value ;
         })
     });
-    
-    console.log(rowData);
-    return rowData ;
+
+    return JSON.stringify(rowData) ;
 }
 var data
 $('button').on('click',function(){
@@ -28,7 +27,7 @@ $('button').on('click',function(){
         headers: {
             "Content-Type": "application/json; charset=utf-8"
         },
-        body : JSON.stringify(data)
+        body : data
     })
     
 })
