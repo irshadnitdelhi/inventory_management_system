@@ -153,3 +153,33 @@ exports.targetSaleEntry = function(data){
              VALUES(${data.month},${data.year},${data.targetsale},'user1')` ;
 
 }
+
+// Profit vs Loss
+exports.cost_price = function(data){
+    return `    SELECT month,year,SUM(cost_price) as cost_price
+                FROM (
+                    SELECT MONTH(pb.PurDate) as month,YEAR(pb.PurDate) as year,SUM(pi.Price) as cost_price
+                    FROM productinvoice as pi , purchasedby as pb
+                    WHERE pi.PInvNo = pb.PInvNo 
+                    GROUP BY month,year 
+                    UNION
+                    select Mnth as month,Yr as year,Production_cost as cost_price
+                    from produces
+                ) AS costTable
+                WHERE year = ${data.year}
+                GROUP BY month,year
+                ORDER BY month,year
+    ` ;
+}
+exports.sale_month_profit = function(data){
+
+    return `SELECT MONTH(SellDate) as month ,YEAR(SellDate) as year , SUM(Amount) AS total_sales
+            FROM sellsto 
+            WHERE YEAR(SellDate) = ${data.year} 
+            GROUP BY month,year
+            ORDER BY month,year
+    ` ;
+}
+exports.products = function(){
+    return 'SELECT * FROM products'
+}

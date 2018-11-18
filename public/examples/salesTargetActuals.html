@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        Stock Management System
+        Inventory System
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -16,6 +16,54 @@
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/reports.css" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <style>
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+            visibility: hidden; /* Hidden by default. Visible on click */
+            min-width: 250px; /* Set a default minimum width */
+            margin-left: -125px; /* Divide value of min-width by 2 */
+            background-color: #333; /* Black background color */
+            color: #fff; /* White text color */
+            text-align: center; /* Centered text */
+            border-radius: 2px; /* Rounded borders */
+            padding: 16px; /* Padding */
+            position: fixed; /* Sit on top of the screen */
+            z-index: 1; /* Add a z-index if needed */
+            left: 50%; /* Center the snackbar */
+            bottom: 30px; /* 30px from the bottom */
+        }
+        
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+            visibility: visible; /* Show the snackbar */
+            /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+            However, delay the fade out process for 2.5 seconds */
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        
+        /* Animations to fade the snackbar in and out */
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+        
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+        
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+        
+    </style>
 </head>
 
 <body class="">
@@ -24,7 +72,7 @@
             <div class="logo">
                 
                 <a href="#" class="simple-text logo-normal">
-                    Stock Management System
+                    Inventory System
                 </a>
             </div>
             <div class="sidebar-wrapper">
@@ -35,61 +83,40 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    
-                    <li>
-                        <a href="./user.html">
-                            <i class="icons users_single-02"></i>
-                            <p>User Profile</p>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="./tables.html">
-                            <i class="icons design_bullet-list-67"></i>
-                            <p>Table List</p>
-                        </a>
-                    </li>
-                    
                     <li >
+                        <a href="./customer.html">
+                            <i class="icons design_app"></i>
+                            <p>Customer</p>
+                        </a>
+                    </li>
+                    <li>
                         <a href="./invoice.html">
-                            <i class="icons design_bullet-list-67"></i>
+                            <i class="icons design_app"></i>
                             <p>Invoice</p>
                         </a>
                     </li>
                     <li >
-                        <a href="./customer.html">
-                            <i class="icons design_bullet-list-67"></i>
-                            <p>Customer</p>
-                        </a>
-                    </li>
-                    <li >
-                        <a href="./supplier.html">
-                            <i class="icons design_bullet-list-67"></i>
-                            <p>Supplier</p>
+                        <a href="./products.html">
+                            <i class="icons design_app"></i>
+                            <p>Products</p>
                         </a>
                     </li>
                     <li >
                         <a href="./reports.html">
-                            <i class="icons design_bullet-list-67"></i>
-                            <p>Sales Reports </p>
-                        </a>
-                    </li>
-                    <li >
-                        <a href="./variance_reports.html">
-                            <i class="icons design_bullet-list-67"></i>
-                            <p>Variance Reports </p>
-                        </a>
-                    </li>
-                    <li >
-                        <a href="./customer_product_trend.html">
-                            <i class="icons design_bullet-list-67"></i>
-                            <p>Customer Product Trend</p>
+                            <i class="icons design_app"></i>
+                            <p>Reports</p>
                         </a>
                     </li>
                     <li class="active">
                         <a href="./salesTargetActuals.html">
-                            <i class="icons design_bullet-list-67"></i>
-                            <p>Sales Target VS Actuals</p>
+                            <i class="icons design_app"></i>
+                            <p>Sales Target vs Actuals</p>
+                        </a>
+                    </li>   
+                    <li >
+                        <a href="./capital_tracing.html">
+                            <i class="icons design_app"></i>
+                            <p>Capital Tracing</p>
                         </a>
                     </li>
                 </ul>
@@ -115,7 +142,7 @@
                         <span class="navbar-toggler-bar navbar-kebab"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        
+                        <div id="profit"></div>
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="#pablo">
@@ -190,16 +217,16 @@
                                         <div class="col-md-4 pr-1">
                                             <div class="form-group">
                                                 <label>Year</label>
-                                                <input type="number" class="form-control" placeholder="Year" id="year-">
+                                                <input type="number" class="form-control" placeholder="Year" id="year-profit">
                                             </div>
                                         </div>
-                                       
+                                        
                                     </div>
                                     
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group" style="padding-top : 20px">
-                                                <span class="profit-btn" style="background-color : #3b4bb7 ; padding : 10px; color : white ;">Submit</span>
+                                                <span id="profit-btn" style="background-color : #3b4bb7 ; padding : 10px; color : white ;">Submit</span>
                                             </div>
                                         </div>
                                     </div>
@@ -213,6 +240,7 @@
                     
                 </div>
             </div>
+            <div id="snackbar">Some text some message..</div>
             <!--   Core JS Files   -->
             <script src="../assets/js/core/jquery.min.js"></script>
             <script src="../assets/js/core/popper.min.js"></script>

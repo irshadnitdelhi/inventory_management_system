@@ -8,7 +8,7 @@ const mysql = require('mysql')
 //Express setup
 const app = express()
 const port = 3000
-const env = 0
+const env = 1
 // MySQL Connection set up
 let connection = undefined
 if(env){
@@ -364,8 +364,29 @@ app.get('/examples/capital_item_tracing',function(req,res) {
     
     
 })
-// To complete
-// update stock
+// Get Products 
+app.get('/examples/products',function(req,res) {
+    
+    
+    
+    let queryString = sqlquery.products() ;
+    
+    
+    
+    connection.query(queryString,function(error,result){
+        if(error){
+            responseString = `Error Message : ${error.sqlMessage}`
+            res.status(400)
+            throw error
+        }
+        
+        res.status(200)
+        res.json(result)
+    })
+    
+    
+    
+})
 app.post('/examples/add/updateStock',function(req,res){
     
     
@@ -434,24 +455,118 @@ app.post('/examples/add/targetSaleEntry',function(req,res){
 })
 
 // Profit vs Loss
-
-// Capital Item Tracing
-app.get('/examples/profit_vs_loss',function(req,res) {
-
-    
-    let queryString = sqlquery.profit_vs_loss() ;
+app.get('/examples/sales/targetActual',function(req,res) {
     
     
+    let data = req.query 
     
-    connection.query(queryString,function(error,result){
+    
+    let monthly_sales_query = sqlquery.monthly_sales(data)
+    let target_sales_query = sqlquery.monthly_sales_target(data)
+    
+    
+    
+    
+    connection.query(target_sales_query,function(error,target_sales){
         if(error){
             responseString = `Error Message : ${error.sqlMessage}`
             res.status(400)
             throw error
         }
+        connection.query(monthly_sales_query,function(error,monthly_sales) {
+            if(error) {
+                responseString = ` Error Message :${error.sqlMessage} `
+                res.status(400)
+                throw error
+            }
+            let months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+            let response = []
+            months.forEach( function(currentMonth){
+                let targetData = target_sales.find(x => x.target_month == currentMonth)
+                let actualSale = monthly_sales.find(x => x.sales_month == currentMonth)
+                if(targetData != undefined){
+                    target = targetData.target 
+                }
+                else{
+                    target = 0 
+                }
+                if(actualSale != undefined){
+                    actualSale = actualSale.total_sales
+                }
+                else{
+                    actualSale = 0 ;
+                }
+                response.push({
+                    month : currentMonth,
+                    targetSale : target,
+                    totalSale : actualSale
+                })
+                
+            })
+            res.status(200)
+            res.json(response)
+        })
         
-        res.status(200)
-        res.json(result)
+    })
+    
+    
+})
+
+// Capital Item Tracing
+app.get('/examples/profit_vs_loss',function(req,res) {
+
+
+    let data = req.query
+    let costPriceQuery = sqlquery.cost_price(data)
+    let profitQuery = sqlquery.sale_month_profit(data)
+    
+
+    connection.query(costPriceQuery,function(error,costPriceRes){
+        if(error){
+            responseString = `Error Message : ${error.sqlMessage}`
+            res.status(400)
+            throw error
+        }
+        connection.query(profitQuery,function(error,saleRes){
+            if(error){
+                responseString = `Error Message : ${error.sqlMessage}`
+                res.status(400)
+                throw error
+            }
+            let months = [1,2,3,4,5,6,7,8,9,10,11,12]
+            let profitLossMonth = []
+            let costSum = 0 
+            let saleSum = 0
+            costPriceRes.forEach((costPriceMonth) => {
+                if(costPriceMonth != undefined){
+                    costSum += costPriceMonth.cost_price
+                }
+            })
+            months.forEach((currentMonth) =>{
+                let month_cost = costPriceRes.find(x => x.month == currentMonth)
+                let month_sale = saleRes.find(x => x.month == currentMonth)
+        
+                if(month_cost == undefined){
+                    month_cost = 0
+                }
+                else{
+                    month_cost = month_cost.cost_price
+                }
+                if(month_sale == undefined){
+                    month_sale = 0
+                }
+                else{
+                   
+                    saleSum += month_sale.total_sales
+                    month_sale = month_sale.total_sales
+                }
+                profitLossMonth.push((month_sale-month_cost)/costSum *100)
+             
+            })
+            let profitLoss = (saleSum-costSum)/costSum *100
+            res.status(200)
+            res.json([profitLossMonth,profitLoss])
+        })
     })
     
     
