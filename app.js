@@ -12,7 +12,7 @@ const env = 0
 // MySQL Connection set up
 let connection = undefined
 if(env){
-    let connection = mysql.createConnection({
+    connection = mysql.createConnection({
         host     : 'localhost',
         database : 'inventory',
         user     : 'root',
@@ -20,15 +20,15 @@ if(env){
         port : '3306'
     })
 }
-else{
-    let connection = mysql.createConnection({
-        host     : 'ec2-79-125-124-30.eu-west-1.compute.amazonaws.com',
-        database : 'd6q6rsdjrp84mm',
-        user     : 'lsklugiisgynsz',
-        password : '4650053ea85ce88d0a259f0343023eb246b3c77bed8aeedb59266061ef9e15da',
-        port : '5432'
-    })
-}
+// else{
+//     connection = mysql.createConnection({
+//         host     : 'ec2-50-19-249-121.compute-1.amazonaws.com',
+//         database : 'd1o8vuujf46mo6',
+//         user     : 'urhoseshziqdyc',
+//         password : '9ce4b36c2490fd1d8273a676012975a756341f36ef34113278b6d9368b86175a',
+//         port : '5432'
+//     })
+// }
 
 connection.connect(function(err) {
     if (err) {
