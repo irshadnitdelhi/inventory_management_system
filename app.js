@@ -373,7 +373,29 @@ app.get('/examples/products',function(req,res) {
     
     
     
-    connection.query(queryString,function(error,result){
+    connection.query(queryString,function(error,result){    
+        if(error){
+            responseString = `Error Message : ${error.sqlMessage}`
+            res.status(400)
+            throw error
+        }
+        
+        res.status(200)
+        res.json(result)
+    })
+    
+    
+    
+})
+app.get('/examples/customers',function(req,res) {
+    
+    
+    
+    let queryString = sqlquery.customers() ;
+    
+    
+    
+    connection.query(queryString,function(error,result){    
         if(error){
             responseString = `Error Message : ${error.sqlMessage}`
             res.status(400)

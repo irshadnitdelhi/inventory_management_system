@@ -183,3 +183,26 @@ exports.sale_month_profit = function(data){
 exports.products = function(){
     return 'SELECT * FROM products'
 }
+exports.customers = function(){
+    return 'SELECT * FROM customer'
+}
+exports.addSellsto = function(data){
+
+    return ` INSERT INTO sellsto VALUES(${data[2]},${data[1]},${data.date},${data['totalAmount']},${data.feedback})` ;
+
+
+}
+exports.addInvoiceProducts = function(products,invno){
+
+    let queryString = "INSERT INTO salesinvoice VALUES " ;
+
+    for(i=0 ; i < products.length ; i++){
+        if( i == (products.length - 1)){
+            queryString += `(${products[i]['ProductID']},${invno},${products[i]['Quantity']},${products[i]['Price']});`
+        
+        }
+        else{
+            queryString += `(${products[i]['ProductID']},${invno},${products[i]['Quantity']},${products[i]['Price']}),`
+        }
+    }
+}

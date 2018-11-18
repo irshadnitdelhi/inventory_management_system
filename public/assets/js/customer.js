@@ -1,3 +1,4 @@
+
 function tableJSON(){
     let headers = [] ;
     $('thead td').each(function(){
