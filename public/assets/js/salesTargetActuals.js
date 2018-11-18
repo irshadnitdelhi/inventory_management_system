@@ -1,10 +1,8 @@
 
 $('.submit-btn').on('click',function(){
     let data = {} ;
-    data.month_range_min = $('#month-range-min').val();
-    data.month_range_max = $('#month-range-max').val();
-    data.year_range_min = $('#year-range-min').val() ;
-    data.year_range_max = $('#year-range-max').val();
+    data.year = $('#year').val();
+   
     
     let url = new URL('examples/sales/targetActual',"http://localhost:3000")
     url.search = new URLSearchParams(data)
@@ -12,14 +10,21 @@ $('.submit-btn').on('click',function(){
     fetch(url).then(response => response.json())
     .then(function(res){
       
+   
+
       let response_label = []
       let data_target = []
       let data_actuals = []
+      let profitBorder = []
       
       res.forEach(month_sale => {
         response_label.push(month_sale.month)
         data_target.push(month_sale.targetSale)
         data_actuals.push(month_sale.totalSale)
+        if(month_sale.targetSale <= month_sale.totalSale)
+          profitBorder.push("#0eff00")
+        else
+          profitBorder.push("#ff0000")
         
       });
       
@@ -57,7 +62,7 @@ $('.submit-btn').on('click',function(){
             data: data_target
           },{
             label: "Actual Sales",
-            borderColor: '#FFFFFF',
+            borderColor: profitBorder,
             pointBorderColor: '#FFFFFF',
             pointBackgroundColor: "#1e3d60",
             pointHoverBackgroundColor: "#1e3d60",

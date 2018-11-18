@@ -8,15 +8,27 @@ const mysql = require('mysql')
 //Express setup
 const app = express()
 const port = 3000
-
+const env = 0
 // MySQL Connection set up
-let connection = mysql.createConnection({
-    host     : 'localhost',
-    database : 'inventory',
-    user     : 'root',
-    password : 'root',
-    port : '3306'
-})
+let connection = undefined
+if(env){
+    let connection = mysql.createConnection({
+        host     : 'localhost',
+        database : 'inventory',
+        user     : 'root',
+        password : 'root',
+        port : '3306'
+    })
+}
+else{
+    let connection = mysql.createConnection({
+        host     : 'ec2-79-125-124-30.eu-west-1.compute.amazonaws.com',
+        database : 'd6q6rsdjrp84mm',
+        user     : 'lsklugiisgynsz',
+        password : '4650053ea85ce88d0a259f0343023eb246b3c77bed8aeedb59266061ef9e15da',
+        port : '5432'
+    })
+}
 
 connection.connect(function(err) {
     if (err) {
@@ -398,8 +410,53 @@ app.post('/examples/add/costEntry',function(req,res){
     
     
 })
+app.post('/examples/add/targetSaleEntry',function(req,res){
+    
+    
+    let data = req.body // Parse Object as Array Object
+    console.log(data)
+    let responseString = "Successfull"
+    let queryString = sqlquery.targetSaleEntry(data)
+    console.log(queryString)
+    res.status(200)
+    connection.query(queryString,function(error){
+        if(error){
+            responseString = `Error Message : ${error.sqlMessage}`
+            res.status(400)
+            throw error
+        }
+        
+    })
+    res.send(responseString)
+    
+    
+    
+})
 
+// Profit vs Loss
 
+// Capital Item Tracing
+app.get('/examples/profit_vs_loss',function(req,res) {
+
+    
+    let queryString = sqlquery.profit_vs_loss() ;
+    
+    
+    
+    connection.query(queryString,function(error,result){
+        if(error){
+            responseString = `Error Message : ${error.sqlMessage}`
+            res.status(400)
+            throw error
+        }
+        
+        res.status(200)
+        res.json(result)
+    })
+    
+    
+    
+})
 
 
 
