@@ -11,11 +11,12 @@ const port = 3000
 
 // MySQL Connection set up
 let connection = mysql.createConnection({
-    host     : 'localhost',
-    database : 'inventory',
-    user     : 'root',
-    password : 'root',
-    port : '3306'
+    host     : 'ec2-79-125-124-30.eu-west-1.compute.amazonaws.com',
+    database : 'd6q6rsdjrp84mm',
+    user     : 'lsklugiisgynsz',
+    password : '4650053ea85ce88d0a259f0343023eb246b3c77bed8aeedb59266061ef9e15da
+',
+    port : '5432'
 })
 
 connection.connect(function(err) {
