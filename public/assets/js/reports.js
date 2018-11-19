@@ -7,6 +7,13 @@
 //Date Wise
 function display_date_wise() {
 
+        
+    let thead = $('#thead')
+    thead.empty()
+    thead.append('<th>Date </th>')
+    thead.append('<th>Sale</th>')  
+    let tbody = $('#tbody')
+    tbody.empty()
     let data = {} ;
     data.date_range_min = $('#date-datewise-min').val();
     data.date_range_max = $('#date-datewise-max').val();
@@ -34,9 +41,11 @@ function display_date_wise() {
             response_data.push(day_sale.TotalSale)
           
         });
+         
+       for(i=0 ; i < response_label.length ; i++){
 
-      
-       
+        tbody.append(`<tr> <td>${response_label[i]}</td><td>${response_data[i]} </td></tr>`)
+       }
 
         let ctx = document.getElementById('bigDashboardChart').getContext("2d");
 
@@ -130,6 +139,15 @@ $('#datewise-submit').on('click',display_date_wise)
 // Display Product Wise
 function display_product_wise() {
 
+  
+        
+  let thead = $('#thead')
+  thead.empty()
+  thead.append('<th>Product </th>')
+  thead.append('<th>Sale</th>')  
+  let tbody = $('#tbody')
+  tbody.empty()
+
   let data = {} ;
   data.date_range_min = $('#pro_date-range-min').val();
   data.date_range_max = $('#pro_date-range-max').val();
@@ -158,7 +176,11 @@ function display_product_wise() {
         
       });
 
-     
+       
+       for(i=0 ; i < response_label.length ; i++){
+
+        tbody.append(`<tr> <td>${response_label[i]}</td><td>${response_data[i]} </td></tr>`)
+       }
 
       let ctx = document.getElementById('bigDashboardChart').getContext("2d");
 
@@ -257,6 +279,13 @@ $('#product-wise-btn').on('click',display_product_wise)
 // Display Week Wise
 function display_week_wise() {
 
+   
+  let thead = $('#thead')
+  thead.empty()
+  thead.append('<th>Week </th>')
+  thead.append('<th>Sale</th>')  
+  let tbody = $('#tbody')
+  tbody.empty()
   let data = {} ;
   data.year = $('#yearVal').val();
 
@@ -283,7 +312,11 @@ function display_week_wise() {
           response_data.push(day_sale.total_sales)
         
       });
+    
+       for(i=0 ; i < response_label.length ; i++){
 
+        tbody.append(`<tr> <td>${response_label[i]}</td><td>${response_data[i]} </td></tr>`)
+       }
       let ctx = document.getElementById('bigDashboardChart').getContext("2d");
 
       let gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -380,6 +413,14 @@ $('#weekwise-btn').on('click',display_week_wise)
 //Display Month Wise
 function display_month_wise() {
 
+  
+  let thead = $('#thead')
+  thead.empty()
+  thead.append('<th>Month </th>')
+  thead.append('<th>Sale</th>')  
+  let tbody = $('#tbody')
+  tbody.empty()
+
   let data = {} ;
   data.month_range_min = $('#month-range-min').val();
   data.month_range_max = $('#month-range-max').val();
@@ -409,7 +450,12 @@ function display_month_wise() {
           response_data.push(day_sale.total_sales)
         
       });
+     
+       
+       for(i=0 ; i < response_label.length ; i++){
 
+        tbody.append(`<tr> <td>${response_label[i]}</td><td>${response_data[i]} </td></tr>`)
+       }
       let ctx = document.getElementById('bigDashboardChart').getContext("2d");
 
       let gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -508,6 +554,13 @@ $('#month-wise-btn').on('click',display_month_wise)
 
 $('#product-trend-btn').on('click',function(){
 
+   
+  let thead = $('#thead')
+  thead.empty()
+  thead.append('<th>Season</th>')
+  thead.append('<th>Sale</th>')  
+  let tbody = $('#tbody')
+  tbody.empty()
   let data = {} ;
   data.year_range_min = $('#year-trend-min').val();
   data.year_range_max = $('#year-trend-max').val();
@@ -549,6 +602,11 @@ $('#product-trend-btn').on('click',function(){
 
       }
      })
+     
+     for(i=0 ; i < response_label.length ; i++){
+
+      tbody.append(`<tr> <td>${response_label[i]}</td><td>${response_data[i]} </td></tr>`)
+     }
 
      
 

@@ -84,7 +84,7 @@ demo = {
       type: 'line',
       responsive: true,
       data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Day1", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
           label: "Sales Reached",
           borderColor: "#f96332",
@@ -97,7 +97,7 @@ demo = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
+          data: ["542", 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
         }]
       },
       options: gradientChartOptionsConfiguration
@@ -222,9 +222,9 @@ demo = {
     var myChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+        labels: ["PROJECT RECEIVED","ER COMPLETE", "QUERIES WRITTEN", "FRONT END WORK BEGINS", "BACK END WORK BEGINS", "FRONT END COMPLETE", "BACK END COMPLETE", "ADDING TEST DATA", "RECTIFYING LOGICAL ERRORS",  "PROJECT REPORT", "PROJECT FINISHED"],
         datasets: [{
-          label: "Data",
+          label: "Work Done",
           borderColor: chartColor,
           pointBorderColor: chartColor,
           pointBackgroundColor: "#1e3d60",
@@ -237,7 +237,7 @@ demo = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95]
+          data: [10,18,32,45,30,49,60,40,68,60,100]
         }]
       },
       options: {
